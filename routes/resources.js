@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const User = require('../models/User');
+const Blog = require('../models/Blog');
+
 
 mongoose.connect(`mongodb+srv://${process.env.ATLAS_USER}:${process.env.ATLAS_PASS}@cluster0.5w7cn.mongodb.net/dev?retryWrites=true&w=majority`, { useNewUrlParser: true, useUnifiedTopology: true })
 
@@ -9,13 +12,6 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   console.log("Connected to Atlas")
 });
-
-const userSchema = new mongoose.Schema({
-  email: String,
-  password: String
-})
-
-const User = mongoose.model('User', userSchema)
 
 const Admin = new User({
   email: "test@test.com",
@@ -31,6 +27,11 @@ const Admin = new User({
 router.get('/', async (req, res) => {
   users = await User.find()
   res.send(users);
+});
+
+router.get('/blogs', async (req, res) => {
+  blogs = await Blog.find()
+  res.send(blogs);
 });
 
 module.exports = router;
