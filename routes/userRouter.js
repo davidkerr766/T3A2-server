@@ -6,11 +6,6 @@ const jwt = require('jsonwebtoken')
 const auth = require('../middleware/auth')
 
 
-// GET Users
-router.get('/', async (req, res) => {
-  const users = await User.find()
-  res.send(users);
-});
 
 // POST Login
 router.post("/login", async (req, res) => {
@@ -78,6 +73,14 @@ router.post("/tokenIsValid", async (req, res) => {
   } catch (err) {
       res.status(500).json({ error: err.message })
   }
+})
+
+router.get("/", auth, async (req, res) => {
+  const user = await User.findById(req.user)
+  res.json({
+    id: user._id,
+    email: user.email
+  })
 })
 
 module.exports = router;
