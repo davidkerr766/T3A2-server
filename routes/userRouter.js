@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../models/User');
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const auth = require('../middleware/auth')
 
 
 // GET Users
@@ -25,10 +26,10 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ error: "Email does not exist. Check email."})
     } 
 
-    // const isMatch = await bcrypt.compare(password, adminUser.password)
-    // if (!isMatch) {
-    //   return res.status(400).json({ error: "Password is incorrect"})
-    // }
+    const isMatch = await bcrypt.compare(password, adminUser.password)
+    if (!isMatch) {
+      return res.status(400).json({ error: "Password is incorrect"})
+    }
 
     const token = jwt.sign({ id: adminUser._id }, process.env.JWT_SECRET)
 
@@ -60,6 +61,23 @@ router.post("/changepassword", async (req, res) => {
   const salt = await bcrypt.genSalt()
   const passwordHash = await bcrypt.hash(password, salt)
 
+})
+
+router.post("/tokenIsValid", async (req, res) => {
+  try {
+    const token = req.header("x-auth-token")
+    if (!token) return res.json(false)
+
+    const verified = jwt.verify(token, process.env.JWT_SECRET)
+    if (!verified) return res.json(false)
+
+    const user = await User.findById(verified.id)
+    if (!user) return res.json(false)
+
+    return res.json(true)
+  } catch (err) {
+      res.status(500).json({ error: err.message })
+  }
 })
 
 module.exports = router;
