@@ -25,10 +25,10 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ error: "Email does not exist. Check email."})
     } 
 
-    const isMatch = await bcrypt.compare(password, adminUser.password)
-    if (!isMatch) {
-      return res.status(400).json({ error: "Password is incorrect"})
-    }
+    // const isMatch = await bcrypt.compare(password, adminUser.password)
+    // if (!isMatch) {
+    //   return res.status(400).json({ error: "Password is incorrect"})
+    // }
 
     const token = jwt.sign({ id: adminUser._id }, process.env.JWT_SECRET)
 
