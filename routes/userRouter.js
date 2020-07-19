@@ -33,7 +33,8 @@ router.post("/login", async (req, res) => {
       user: {
         id: adminUser._id,
         email: adminUser.email
-      }
+      },
+      message: "Successfully Logged In"
     })
 
   } catch (err) {
@@ -67,7 +68,7 @@ router.post("/change-password", auth, async (req, res) => {
     user.password = passwordHash
     await user.save()
 
-    return res.status(201).json({ msg: "Password successfully changed"})
+    return res.status(201).json({ message: "Password successfully changed"})
   } catch (err) {
     res.status(500).json({ error: err.message })
   }
