@@ -42,20 +42,35 @@ router.post("/login", async (req, res) => {
 })
 
 // POST Change Password
-router.post("/changepassword", async (req, res) => {
-  const { email, password } = req.body
+router.post("/change-password", auth, async (req, res) => {
+  try {
+    const { oldPass, newPass, newPass2 } = req.body
+    const user = await User.findById(req.user)
 
-  if (!email || !password) {
-    return res.status(400).json({ error: "Email and password are required"})
+    if (!oldPass || !newPass || !newPass2) {
+      return res.status(400).json({ error: "All fields are required" })
+    }
+
+    const isMatch = await bcrypt.compare(oldPass, user.password)
+    if (!isMatch) {
+      return res.status(400).json({ error: "Old password is incorrect"})
+    }
+
+    if (newPass != newPass2) {
+      return res.status(400).json({ error: "New passwords must match"})
+    }
+
+    // Hash new password
+    const salt = await bcrypt.genSalt()
+    const passwordHash = await bcrypt.hash(newPass, salt)
+
+    user.password = passwordHash
+    await user.save()
+
+    return res.status(201).json({ msg: "Password successfully changed"})
+  } catch (err) {
+    res.status(500).json({ error: err.message })
   }
-
-  // Validate if password is correct
-
-
-  // Hash new password
-  const salt = await bcrypt.genSalt()
-  const passwordHash = await bcrypt.hash(password, salt)
-
 })
 
 router.post("/tokenIsValid", async (req, res) => {
