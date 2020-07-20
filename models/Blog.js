@@ -28,7 +28,4 @@ seedBlog = async () => {
 
 seedBlog()
 
-
-
-
 module.exports = Blog
