@@ -23,5 +23,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use('/api/users', require('./routes/userRouter'));
 app.use('/api/blogs', require('./routes/blogRouter'))
+app.use('/api/recipes', require('./routes/recipeRouter'))
 
 app.listen(port, () => `Listening on port: ${port}`)
