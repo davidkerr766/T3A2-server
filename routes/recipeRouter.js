@@ -31,7 +31,7 @@ router.get('/', (req, res) => {
     }
 })
 
-router.post('/delete', auth, (req, res) => {
+router.delete('/delete', auth, (req, res) => {
     try {
         const { _id } = req.body
         Recipe.deleteOne({_id}, err => {
