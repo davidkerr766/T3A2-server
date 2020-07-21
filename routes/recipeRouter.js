@@ -11,9 +11,9 @@ router.post('/create', auth, async (req, res) => {
             return res.status(400).json({ error: "All mandatory fields must be complete"})
         }
 
-        Recipe.create({recipeTitle, serves, description, ingredients, methods, notes}, (err, data) => {
+        Recipe.create({recipeTitle, serves, description, ingredients, methods, notes}, (err, doc) => {
             if (err) throw err
-            res.send({data, message: "Recipe Successfully Saved"})
+            res.send({ doc, message: "Recipe Successfully Saved"})
         })
     } catch (err) {
         res.status(500).json({ error: err.message })
