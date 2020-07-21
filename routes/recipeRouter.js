@@ -3,7 +3,7 @@ const router = express.Router();
 const Recipe = require('../models/Recipe');
 const auth = require('../middleware/auth')
 
-router.post('/create', auth, async (req, res) => {
+router.post('/create', auth, (req, res) => {
     try {
         const { recipeTitle, serves, description, ingredients, methods, notes } = req.body
 
@@ -20,7 +20,7 @@ router.post('/create', auth, async (req, res) => {
     }
 })
 
-router.get('/', async (req, res) => {
+router.get('/', (req, res) => {
     try {
         Recipe.find({}, (err, data) => {
             if (err) throw err
@@ -30,4 +30,17 @@ router.get('/', async (req, res) => {
         res.status(500).json({ error: err.message })
     }
 })
+
+router.post('/delete', auth, (req, res) => {
+    try {
+        const { _id } = req.body
+        Recipe.deleteOne({_id}, err => {
+            if (err) throw err
+            res.json(req.body)
+        })
+    } catch (err) {
+        res.status(500).json({ error: err.message })
+    }
+})
+
 module.exports = router
