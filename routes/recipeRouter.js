@@ -43,4 +43,16 @@ router.delete('/delete', auth, (req, res) => {
     }
 })
 
+router.put('/update', auth, (req, res) => {
+    try {
+        const { _id } = req.body
+        Recipe.findByIdAndUpdate(_id, req.body, {overwrite: true}, err => {
+            if (err) throw err
+            res.json(req.body)
+        })
+    } catch (err) {
+        res.status(500).json({ error: err.message })
+    }
+})
+
 module.exports = router
