@@ -45,7 +45,11 @@ router.delete('/delete', auth, (req, res) => {
 
 router.put('/update', auth, (req, res) => {
     try {
-        const { _id } = req.body
+        const { _id, recipeTitle, serves, ingredients, methods } = req.body
+        if (!recipeTitle || !serves || !ingredients || !methods) {
+            return res.status(400).json({ error: "All mandatory fields must be complete"})
+        }
+        
         Recipe.findByIdAndUpdate(_id, req.body, {overwrite: true}, err => {
             if (err) throw err
             res.json({ message: `${req.body.recipeTitle} has been updated`})
