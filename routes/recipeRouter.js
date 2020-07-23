@@ -13,7 +13,7 @@ router.post('/create', auth, (req, res) => {
 
         Recipe.create({recipeTitle, serves, description, ingredients, methods, notes}, (err, doc) => {
             if (err) throw err
-            res.send({ doc, message: "Recipe Successfully Saved"})
+            res.send({ data: doc, message: `${recipeTitle} has been saved`})
         })
     } catch (err) {
         res.status(500).json({ error: err.message })
@@ -22,9 +22,9 @@ router.post('/create', auth, (req, res) => {
 
 router.get('/', (req, res) => {
     try {
-        Recipe.find({}, (err, data) => {
+        Recipe.find({}, (err, doc) => {
             if (err) throw err
-            res.json(data)
+            res.json(doc)
         })
     } catch (err) {
         res.status(500).json({ error: err.message })
@@ -36,7 +36,7 @@ router.delete('/delete', auth, (req, res) => {
         const { _id } = req.body
         Recipe.deleteOne({_id}, err => {
             if (err) throw err
-            res.json(req.body)
+            res.json({data: req.body, message: `${req.body.recipeTitle} has been deleted`})
         })
     } catch (err) {
         res.status(500).json({ error: err.message })
@@ -46,9 +46,9 @@ router.delete('/delete', auth, (req, res) => {
 router.put('/update', auth, (req, res) => {
     try {
         const { _id } = req.body
-        Recipe.findByIdAndUpdate(_id, req.body, {overwrite: true}, err => {
+        Recipe.findByIdAndUpdate(_id, req.body, {overwrite: true}, (err, doc) => {
             if (err) throw err
-            res.json(req.body)
+            res.json({data: doc, message: `${req.body.recipeTitle} has been updated`})
         })
     } catch (err) {
         res.status(500).json({ error: err.message })
