@@ -46,9 +46,9 @@ router.delete('/delete', auth, (req, res) => {
 router.put('/update', auth, (req, res) => {
     try {
         const { _id } = req.body
-        Recipe.findByIdAndUpdate(_id, req.body, {overwrite: true}, (err, doc) => {
+        Recipe.findByIdAndUpdate(_id, req.body, {overwrite: true}, err => {
             if (err) throw err
-            res.json({data: doc, message: `${req.body.recipeTitle} has been updated`})
+            res.json({ message: `${req.body.recipeTitle} has been updated`})
         })
     } catch (err) {
         res.status(500).json({ error: err.message })
