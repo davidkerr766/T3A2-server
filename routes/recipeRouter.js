@@ -5,13 +5,13 @@ const auth = require('../middleware/auth')
 
 router.post('/create', auth, (req, res) => {
     try {
-        const { recipeTitle, serves, description, ingredients, methods, notes } = req.body
+        const { recipeTitle, serves, description, ingredients, methods, notes, getURL } = req.body
 
-        if (!recipeTitle || !serves || !ingredients || !methods) {
+        if (!recipeTitle || !serves || !ingredients || !methods || !getURL) {
             return res.status(400).json({ error: "All mandatory fields must be complete"})
         }
 
-        Recipe.create({recipeTitle, serves, description, ingredients, methods, notes}, (err, doc) => {
+        Recipe.create({recipeTitle, serves, description, ingredients, methods, notes, getURL}, (err, doc) => {
             if (err) throw err
             res.send({ data: doc, message: `${recipeTitle} has been saved`})
         })
@@ -45,8 +45,8 @@ router.delete('/delete', auth, (req, res) => {
 
 router.put('/update', auth, (req, res) => {
     try {
-        const { _id, recipeTitle, serves, ingredients, methods } = req.body
-        if (!recipeTitle || !serves || !ingredients || !methods) {
+        const { _id, recipeTitle, serves, ingredients, methods, getURL } = req.body
+        if (!recipeTitle || !serves || !ingredients || !methods || !getURL) {
             return res.status(400).json({ error: "All mandatory fields must be complete"})
         }
         

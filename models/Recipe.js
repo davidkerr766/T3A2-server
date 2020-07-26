@@ -6,7 +6,8 @@ const recipeSchema = new mongoose.Schema({
     description: { type: String },
     ingredients: [{ type: String, required: true }],
     methods: [{ type: String, required: true }],
-    notes: { type: String }
+    notes: { type: String },
+    getURL: { type: String, required: true }
 })
   
 const Recipe = mongoose.model('Recipe', recipeSchema)
