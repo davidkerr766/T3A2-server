@@ -20,7 +20,10 @@ db.once('open', function() {
   console.log("Connected to Atlas")
 });
 
-app.use(cors())
+app.use(cors({
+    origin: "https://nourished-to-health.netlify.app/",
+    credentials: true
+}))
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
