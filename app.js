@@ -21,7 +21,7 @@ db.once('open', function() {
 });
 
 app.use(cors({
-    origin: "https://nourished-to-health.netlify.app/",
+    origin: "https://nourished-to-health.netlify.app",
     credentials: true
 }))
 app.use(logger('dev'));
