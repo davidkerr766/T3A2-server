@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "test": "mocha "
   },
   "dependencies": {
     "aws-sdk": "^2.720.0",
@@ -17,5 +18,10 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.23",
     "morgan": "~1.9.1"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^8.0.1",
+    "supertest": "^4.0.2"
   }
 }
