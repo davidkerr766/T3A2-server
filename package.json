@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "mocha "
+    "test": "ENV=test mocha test.js --exit"
   },
   "dependencies": {
     "aws-sdk": "^2.720.0",
