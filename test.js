@@ -10,6 +10,13 @@ before(function() {
             console.log("delete collection success");
         }
     });
+    db.dropCollection("recipes", function (err) {
+        if (err) {
+            console.log("error delete collection");
+        } else {
+            console.log("delete collection success");
+        }
+    });
 })
 
 describe('blogs', () => {
